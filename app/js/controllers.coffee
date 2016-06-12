@@ -4,11 +4,20 @@
 controllers = angular.module("myApp.controllers", [])
 controllers.controller("MyCtrl1", [
   "$scope"
-  ($scope) ->
-    # controller 1 code goes here
-    $scope.name = "MyCtrl1"
-    $scope.doIt = ->
-      alert "Done! #{$scope.name}"
+  "GameBoardService"
+  "RULES"
+  ($scope, GameBoardService, RULES) ->
+
+    $scope.size = RULES.size
+    $scope.state = RULES.state
+    $scope.field1 = GameBoardService.getField()
+    $scope.field2 = GameBoardService.getEnemyField()
+
+    $scope.updateField = (e)->
+      e.preventDefault()
+      $scope.field1 = GameBoardService.field.getField()
+
+    return
 ])
 
 controllers.controller "MyCtrl2", [

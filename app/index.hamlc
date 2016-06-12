@@ -15,6 +15,8 @@
         %a{:href => "#/view1"} view1
       %li
         %a{:href => "#/view2"} view2
+      %li
+        %a{:href => "#/game"} game
     /[if lt IE 9]
       %p.browsehappy
         You are using an
@@ -24,9 +26,7 @@
         to improve your experience.
 
     %div{"ng-view" => ""}
-    %div
-      Angular seed app: v
-      %span{"app-version" => ""}
+
     /
       In production use:
       <script src="//ajax.googleapis.com/ajax/libs/angularjs/x.x.x/angular.min.js"></script>

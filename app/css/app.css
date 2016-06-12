@@ -5,6 +5,9 @@
   border-bottom: 0.1em solid black;
   margin-bottom: 2em;
   padding: 0 0 0.5em;
+  display: block;
+  width: 100%;
+  background: #87c6ff;
 }
 
 .menu:before {
@@ -27,4 +30,107 @@
 .menu > li:nth-child(1):before {
   content: "";
   padding: 0;
+}
+
+.field {
+  width: 600px;
+  height: 600px;
+  border: 1px solid #fff;
+  float: left;
+  margin: 20px;
+}
+.field > div{
+  float: left;
+  box-sizing: border-box;
+  width: 5%;
+  height: 5%;
+  border: 0.5px solid #fff;
+}
+.field > div[value="-1"]{
+  background: #87c6ff;
+}
+.field > div[value="0"]{
+  background: #cccccc;
+}
+.field > div[value="1"]{
+  background: #cccccc;
+}
+.field > div[value="2"]{
+  background: #ffc687;
+}
+/** Parallax*/
+
+
+/* Parallax base styles
+--------------------------------------------- */
+
+.parallax {
+  height: 100vh;
+  overflow-x: hidden;
+  overflow-y: auto;
+  -webkit-perspective: 1px;
+  perspective: 1px;
+}
+
+.parallax__layer {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+}
+
+.parallax__layer--base {
+  -webkit-transform: translateZ(0);
+  transform: translateZ(0);
+}
+
+.parallax__layer--back {
+  -webkit-transform: translateZ(-1px) scale(2);
+  transform: translateZ(-1px) scale(2);
+  border: 1px solid #ccc;
+}
+
+
+/* demo styles
+--------------------------------------------- */
+
+* {
+  margin:0;
+  padding:0;
+}
+
+body {
+  font: 100% / 1.5 Arial;
+}
+
+.parallax {
+  font-size: 200%;
+}
+
+/* add some padding to force scrollbars */
+.parallax__layer {
+  padding: 100vh 0;
+}
+
+/* centre the content in the parallax layers */
+.title {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  -webkit-transform: translate(-50%, -50%);
+  transform: translate(-50%, -50%);
+}
+
+
+/* misc
+--------------------------------------------- */
+.demo__info {
+  position: absolute;
+  z-index:100;
+  bottom: 1vh;
+  top: auto;
+  font-size:80%;
+  text-align:center;
+  width: 100%;
 }

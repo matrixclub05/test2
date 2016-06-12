@@ -36,7 +36,7 @@ gulp.task "compile-scripts", ->
     .pipe gulp.dest("./dist/")
 
 gulp.task "compile-views", ->
-  gulp.src("./app/views/**/*.hamlc")
+  gulp.src("./app/views/**/*.*" )
       .pipe(hamlc())
       .pipe(templates(standalone: false, root: '/', module: 'myApp.views'))
       .pipe(concat("myapp-views.js"))
@@ -96,7 +96,7 @@ gulp.task 'dev-server', ->
 
 gulp.task 'watch', ->
   gulp.watch('app/index.html', ['index.html'])
-  gulp.watch(['app/**/*.coffee','app/**/*.hamlc', 'app/**/*.css'], ['compile', 'index.html'])
+  gulp.watch(['app/**/*.coffee','app/**/*.hamlc', 'app/**/*.html', 'app/**/*.css'], ['compile', 'index.html'])
 
 gulp.task 'build',   ['index.html', 'watch']
 gulp.task 'dev', ['dev-server', 'build']
