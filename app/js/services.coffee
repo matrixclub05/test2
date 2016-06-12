@@ -6,8 +6,10 @@
 # In this case it is a simple value service.
 
 
+GameBoardService = (RULES)->
+  boardSize = RULES.size
 
-Field = (RULES)->
+  firstField = []
   ships = {}
   isEmptyCell = (x, y, field)->
     d = [[0, 1], [1, 0], [0, -1], [-1, 0], [1, 1], [-1, 1], [1, -1], [-1, -1]];
@@ -69,17 +71,18 @@ Field = (RULES)->
   getEnemyField = ()->
     field = fieldInit()
     ships = RULES.ships
+
     for ship of ships
       i = 0
       s = ships[ship]
       while i < s.count
         setShip(field, s.size)
         i++
-    return field
 
   getField = ()->
     field = fieldInit()
     ships = RULES.ships
+
     for ship of ships
       i = 0
       s = ships[ship]
@@ -88,19 +91,12 @@ Field = (RULES)->
         i++
 
     return field
-  obj = {}
-  obj.getField = getField
-  obj.getEnemyField = getEnemyField
-
-  return obj
-
-GameBoardService = (RULES)->
   {
-    field: new Field(RULES)
-    getField: ()->
-      return new Field(RULES).getField()
-    getEnemyField: ()->
-      return new Field(RULES).getEnemyField()
+    isEmptyCell: isEmptyCell
+    setShip: setShip
+    initField: fieldInit
+    getField: getField
   }
+
 GameBoardService.$inject = ['RULES']
 angular.module("myApp.services", []).factory('GameBoardService', GameBoardService)

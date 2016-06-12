@@ -11,11 +11,11 @@ controllers.controller("MyCtrl1", [
     $scope.size = RULES.size
     $scope.state = RULES.state
     $scope.field1 = GameBoardService.getField()
-    $scope.field2 = GameBoardService.getEnemyField()
+    $scope.field2 = GameBoardService.getField()
 
     $scope.updateField = (e)->
       e.preventDefault()
-      $scope.field1 = GameBoardService.field.getField()
+      $scope.field1 = GameBoardService.getField()
 
     return
 ])
