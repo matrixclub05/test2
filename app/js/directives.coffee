@@ -11,6 +11,7 @@ battleField = ($compile, RULES) ->
       ships: '='
       showShips: '='
       gameStarted: '='
+      shoot: '=?'
 
     compile: (templateElement)->
       {
@@ -33,49 +34,36 @@ battleField = ($compile, RULES) ->
             html = fieldTemplate(scope.virtualField, RULES.size, value)
             templateElement.empty()
             templateElement.append($compile(html)(scope))
-          userWatcher = ()->
-            renderTpl(null)
 
-          enemyWatcher = ()->
-            renderTpl(RULES.state.init)
+
+          fieldWatcher = ()->
+            if scope.isEnemy
+              renderTpl(RULES.state.init)
+            else
+              renderTpl(null)
+            return
 
           if scope.isEnemy
-            scope.$watchCollection('virtualField', enemyWatcher)
             scope.$watch('showShips', (val)->
               if val
                 renderTpl(null)
               else
                 renderTpl(RULES.state.init)
             )
-          else
-            scope.$watchCollection('virtualField', userWatcher)
+          scope.$watch('virtualField', fieldWatcher, true)
           return
         post: (scope)->
 
-          wrapCell = (x, y, el, field)->
-            d = [[0, 1], [1, 0], [0, -1], [-1, 0], [1, 1], [-1, 1], [1, -1], [-1, -1]]
-            i = 0
-            while i < 8
-              dx = x + d[i][0]
-              dy = y + d[i][1]
-              if dx >= 0 and dx < 20 and dy >= 0 and dy < 20 and field[dx][dy] is -1
-                field[dx][dy] = RULES.state.frame
-                el.querySelectorAll(".x" + dx + "-y" + dy)[0].setAttribute('val', RULES.state.frame)
-              i++
-            el.querySelectorAll(".x" + x + "-y" + y)[0].setAttribute('val', RULES.state.killed)
-            return
+          handleUserShoot = (e, x,y, field)->
+            c =
+              x: x
+              y: y
 
-          killShip = (x, y, el)->
-            shipId = scope.ships.refs["#{x}_#{y}"]
-            shipCoords = scope.ships[shipId].coords
-            i = 0
-            while i < shipCoords.length
-              x = shipCoords[i].x
-              y = shipCoords[i].y
-              scope.virtualField[x][y] = RULES.state.killed
-              wrapCell(x, y, el, scope.virtualField)
-              i++
-            return
+            if field[x][y] == RULES.state.missed or field[x][y] == RULES.state.killed
+              e.preventDefault()
+              scope.shoot = null
+            else
+              scope.$emit('EnemyShoot', c)
 
           if(scope.isEnemy)
             scope.onFieldClick = (e)->
@@ -87,16 +75,9 @@ battleField = ($compile, RULES) ->
                 coords = JSON.parse(attrCoords)
                 x = coords[0]
                 y = coords[1]
-                if scope.virtualField[x][y] == RULES.state.ship
-                  killShip(x, y, e.currentTarget)
-                if scope.virtualField[x][y] == RULES.state.missed or scope.virtualField[x][y] == RULES.state.killed
-                  e.preventDefault()
-                else
-                  scope.virtualField[x][y] = RULES.state.missed
-                  e.target.setAttribute('val', RULES.state.missed)
-
+                handleUserShoot(e, x, y, scope.virtualField)
+              return
           return
-
       }
   return obj
 

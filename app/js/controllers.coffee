@@ -12,22 +12,22 @@ controllers.controller("MyCtrl1", [
     $scope.stopped = true
     $scope.gameReady = false
     $scope.isSet = false
+    $scope.enemyShoot = null
+    $scope.shipCountEnemy = GameBoardService.getShipsCount()
+    $scope.shipCountUser = GameBoardService.getShipsCount()
 
-    clenFields = ()->
+    cleanFields = ()->
       $scope.stopped = true
       $scope.field1 = GameBoardService.initField()
       $scope.userShips = {}
 
       $scope.field2 = GameBoardService.initField()
       $scope.enemyShips = {}
-      $scope.gameReady = true
+      $scope.gameReady = false
       $scope.isSet = false
       $scope.showShips = false
 
-    clenFields()
-
-
-
+    cleanFields()
 
     $scope.setShips = (e)->
       if e
@@ -64,7 +64,21 @@ controllers.controller("MyCtrl1", [
     $scope.stopGame = (e)->
       e.preventDefault()
       $scope.gameStarted = false
-      clenFields()
+      cleanFields()
+
+    shootHandler = (val, coords)->
+
+      GameBoardService.handleUserShoot(coords.x, coords.y, $scope.field2, $scope.enemyShips)
+      if val
+        c = GameBoardService.getRndCell($scope.field1)
+        if $scope.field1[c.x][c.y] == 0
+          $scope.field1[c.x][c.y] = 2
+          GameBoardService.killShip(c.x, c.y, $scope.field1, $scope.userShips)
+        if $scope.field1[c.x][c.y] == -1
+          $scope.field1[c.x][c.y] = 1
+      return
+    $scope.$on('EnemyShoot', shootHandler)
+
 
     return
 ])
