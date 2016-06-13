@@ -1,22 +1,23 @@
-# Views from app/views get compiled into ./dist/myapp-views.js
+# Constants
 angular.module('myApp')
 .constant('RULES', {
   size:
     x: 20
     y: 20
   ships:
-    ten:
+    '10':
       size:10
       count: 1
-    five:
+    '5':
       size: 5
       count: 2
-    two:
+    '2':
       size: 2
       count: 3
   state:
-    init: -1
-    ship: 0
+    init:  -1
+    ship:   0
+    frame:  1
     missed: 1
     killed: 2
 })
