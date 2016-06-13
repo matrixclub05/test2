@@ -9,37 +9,48 @@ battleField = ($compile, RULES) ->
       virtualField: '='
       isEnemy: '='
       ships: '='
+      showShips: '='
+      gameStarted: '='
 
     compile: (templateElement)->
-      fieldTemplate = (field, size, val)->
-        html = ''
-        for x in [0...size.x] by 1
-          for y in [0...size.y] by 1
-            vv = if val == null then field[x][y] else RULES.state.init
-
-            html = html + "<div coords='[#{x},#{y}]' class=\"x#{x}-y#{y}\" value=\"#{vv}\"></div>"
-        return "<div class=\"field\" ng-click=\"onFieldClick($event)\">#{html}</div>"
-
       {
-        pre: (scope, element, attrs)->
-          userWatcher = ()->
-            v = if scope.isEnemy then RULES.state.init else null
-            html = fieldTemplate(scope.virtualField, scope.size, v)
+        pre: (scope)->
+          fieldTemplate = (field, size, val)->
+            html = ''
+            for x in [0...size.x] by 1
+              for y in [0...size.y] by 1
+                v = if val == null then field[x][y] else RULES.state.init
+                if scope.showShips
+                  v = field[x][y]
+                else
+                  if field[x][y] == RULES.state.frame or field[x][y] == RULES.state.killed
+                    v = field[x][y]
+
+                html = html + "<div coords='[#{x},#{y}]' class=\"x#{x}-y#{y}\" val=\"#{v}\"></div>"
+            return "<div class=\"field\" ng-click=\"onFieldClick($event)\">#{html}</div>"
+
+          renderTpl = (value)->
+            html = fieldTemplate(scope.virtualField, RULES.size, value)
             templateElement.empty()
             templateElement.append($compile(html)(scope))
+          userWatcher = ()->
+            renderTpl(null)
 
           enemyWatcher = ()->
-            v = if scope.isEnemy then RULES.state.init else null
-            html = fieldTemplate(scope.virtualField, scope.size, v)
-            templateElement.empty()
-            templateElement.append($compile(html)(scope))
+            renderTpl(RULES.state.init)
 
           if scope.isEnemy
             scope.$watchCollection('virtualField', enemyWatcher)
+            scope.$watch('showShips', (val)->
+              if val
+                renderTpl(null)
+              else
+                renderTpl(RULES.state.init)
+            )
           else
             scope.$watchCollection('virtualField', userWatcher)
           return
-        post: (scope, element, attrs)->
+        post: (scope)->
 
           wrapCell = (x, y, el, field)->
             d = [[0, 1], [1, 0], [0, -1], [-1, 0], [1, 1], [-1, 1], [1, -1], [-1, -1]]
@@ -47,10 +58,11 @@ battleField = ($compile, RULES) ->
             while i < 8
               dx = x + d[i][0]
               dy = y + d[i][1]
-              if dx > 0 and dx < 20 and dy > 0 and dy < 20 and field[dx][dy] is -1
-                el.querySelectorAll(".x" + dx + "-y" + dy)[0].setAttribute('value', RULES.state.frame)
+              if dx >= 0 and dx < 20 and dy >= 0 and dy < 20 and field[dx][dy] is -1
+                field[dx][dy] = RULES.state.frame
+                el.querySelectorAll(".x" + dx + "-y" + dy)[0].setAttribute('val', RULES.state.frame)
               i++
-            el.querySelectorAll(".x" + x + "-y" + y)[0].setAttribute('value', RULES.state.killed)
+            el.querySelectorAll(".x" + x + "-y" + y)[0].setAttribute('val', RULES.state.killed)
             return
 
           killShip = (x, y, el)->
@@ -67,6 +79,8 @@ battleField = ($compile, RULES) ->
 
           if(scope.isEnemy)
             scope.onFieldClick = (e)->
+              if not scope.gameStarted
+                return false
               cell = e.target
               attrCoords = cell.getAttribute('coords')
               if attrCoords
@@ -79,7 +93,7 @@ battleField = ($compile, RULES) ->
                   e.preventDefault()
                 else
                   scope.virtualField[x][y] = RULES.state.missed
-                  e.target.setAttribute('value', RULES.state.missed)
+                  e.target.setAttribute('val', RULES.state.missed)
 
           return
 
