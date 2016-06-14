@@ -2,11 +2,12 @@
 
 # Controllers
 controllers = angular.module("myApp.controllers", [])
-controllers.controller("MyCtrl1", [
+controllers.controller("GameBoard", [
   "$scope"
   "GameBoardService"
   "RULES"
-  ($scope, GameBoardService, RULES) ->
+  "$timeout"
+  ($scope, GameBoardService, RULES, $timeout) ->
     $scope.gameStarted = false
     $scope.showShips = false
     $scope.stopped = true
@@ -15,6 +16,9 @@ controllers.controller("MyCtrl1", [
     $scope.enemyShoot = null
     $scope.shipCountEnemy = GameBoardService.getShipsCount()
     $scope.shipCountUser = GameBoardService.getShipsCount()
+
+    $scope.enemyWin = false
+    $scope.userWin = false
 
     cleanFields = ()->
       $scope.stopped = true
@@ -26,6 +30,9 @@ controllers.controller("MyCtrl1", [
       $scope.gameReady = false
       $scope.isSet = false
       $scope.showShips = false
+
+      $scope.userWin = false
+      $scope.enemyWin = false
 
     cleanFields()
 
@@ -46,6 +53,9 @@ controllers.controller("MyCtrl1", [
 
       $scope.gameReady = true
       $scope.isSet = true
+      $scope.shipCountEnemy = GameBoardService.getShipsCount()
+      $scope.shipCountUser = GameBoardService.getShipsCount()
+      return
 
     $scope.updateField = (e)->
       if e
@@ -67,27 +77,45 @@ controllers.controller("MyCtrl1", [
       cleanFields()
 
     shootHandler = (val, coords)->
+      c = GameBoardService.getRndCell($scope.field1)
+      if GameBoardService.handleUserShoot(coords.x, coords.y, $scope.field2, $scope.enemyShips)
+        $scope.shipCountEnemy--
+        if $scope.shipCountEnemy == 0
+          $scope.userWin = true
 
-      GameBoardService.handleUserShoot(coords.x, coords.y, $scope.field2, $scope.enemyShips)
-      if val
-        c = GameBoardService.getRndCell($scope.field1)
-        if $scope.field1[c.x][c.y] == 0
-          $scope.field1[c.x][c.y] = 2
-          GameBoardService.killShip(c.x, c.y, $scope.field1, $scope.userShips)
-        if $scope.field1[c.x][c.y] == -1
-          $scope.field1[c.x][c.y] = 1
+      if GameBoardService.handleUserShoot(c.x, c.y, $scope.field1, $scope.userShips)
+        $scope.shipCountUser--
+        if $scope.shipCountUser == 0
+          $scope.enemyWin = true
+
+      return
+    $scope.restart = (e)->
+      e.preventDefault()
+      $scope.stopGame(e)
+      $scope.userWin = false
+      $scope.enemyWin = false
+      $scope.setShips(e)
+      $scope.startGame(e)
+
+
+    $scope.onFieldClick = (e)->
+      if not $scope.gameStarted
+        return false
+      cell = e.target
+      attrCoords = cell.getAttribute('coords')
+      if attrCoords
+        coords = JSON.parse(attrCoords)
+        c =
+          x:coords[0]
+          y:coords[1]
+        shootHandler(null, c)
       return
     $scope.$on('EnemyShoot', shootHandler)
-
-
     return
 ])
 
-controllers.controller "MyCtrl2", [
+controllers.controller "MyCtrl1", [
   "$scope"
   ($scope) ->
-# controller 2 code goes here
-    $scope.name = "MyCtrl2"
-    $scope.doIt = ->
-      alert "Done! #{$scope.name}"
+
 ]

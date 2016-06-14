@@ -1,5 +1,12 @@
 /* app css stylesheet */
 
+html,body{
+  height: 100%;
+}
+
+div{
+  box-sizing: border-box;
+}
 .menu {
   list-style: none;
   border-bottom: 0.1em solid black;
@@ -7,7 +14,9 @@
   padding: 0 0 0.5em;
   display: block;
   width: 100%;
+  position: fixed;
   background: #87c6ff;
+  z-index: 2;
 }
 
 .menu:before {
@@ -31,31 +40,191 @@
   content: "";
   padding: 0;
 }
+.game-board{
+  position: relative;
+  margin: 0 auto;
+  width: 100%;
 
-.field {
-  width: 600px;
-  height: 600px;
-  border: 1px solid #fff;
-  float: left;
-  margin: 20px;
 }
-.field > div{
+.game-board::after, .left-menu::after, div[battle-field]::after{
+  content: '';
+  clear: both;
+  display: table;
+}
+.left-menu{
+  width: 380px;
+  float: left;
+  height: 100%;
+  display: block;
+  padding-top: 100px;
+  box-sizing: border-box;
+  position: relative;
+  z-index: 1;
+}
+.left-menu >li{
+  display: block;
+}
+.left-menu a{
+
+  display: block;
+  font-size: 2em;
+  line-height: 2em;
+  text-align: center;
+  border: 2px solid #fff;
+  text-decoration: none;
+  border-radius: 10px;
+  font-weight: bold;
+  text-transform: uppercase;
+  background: rgba(255,255,255,0.6);
+  color: #195963;
+  margin: 20px;
+  padding: 0 1em;
+}
+
+.enemy .field{
+  width: 900px;
+  height: 800px;
+  transform: perspective( 600px ) rotateX( 35deg );
+  margin: 0 auto;
+}
+div[ng-view]{
+
+  box-sizing: border-box;
+  height: 100%;
+}
+.game-board-ct{
+  padding-top: 100px;
+  height: 100%;
+  background: url("../img/battleship-wallpaper.jpg") center center;
+  background-size: cover;
+  position: relative;
+  z-index: 0;
+}
+/*div[battle-field]{
+  float: left;
+}
+div[battle-field]::after{
+
+}*/
+.field {
+  width: 300px;
+  height: 300px;
+  border: 1px solid #fff;
+  overflow: hidden;
+  margin: 20px;
+  background: url("../img/water.jpg");
+}
+.cell{
   float: left;
   box-sizing: border-box;
-  width: 5%;
-  height: 5%;
-  border: 0.5px solid #fff;
+  position: relative;
+  box-shadow: 0 0 2px 0px rgba(214,213,255,0.9) inset;
   cursor: pointer;
+  border-radius: 3px;
 }
-.field > div[val="-1"]{
-  background: #87c6ff;
+
+.cell::before{
+  content: '';
+  display: block;
+  width: 4px;
+  height: 4px;
+  box-sizing: border-box;
+  position: absolute;
+  top: -2px;
+  left: -2px;
+  box-shadow: 0 0 6px 0px rgba(214,213,255,0.9);
+  border-radius: 100%;
+  background: rgba(214,213,255,0.9);
 }
-.field > div[val="0"]{
+div[val="-1"]{
+  /*background: #87c6ff;*/
+}
+div[val="0"]{
   background: #72A9D5;
 }
-.field > div[val="1"]{
-  background: #cccccc;
+div[val="1"]{
+  background: rgba(204, 204, 204, 0.4);
 }
-.field > div[val="2"]{
-  background: #ffc687;
+div[val="2"]{
+  background: rgba(255, 183, 135, 0.8);
+}
+.row{
+  width: 100%;
+}
+.intro{
+  height: 100%;
+  position: relative;
+  z-index: 0;
+  background: url("../img/world-of-battleships.jpg") center no-repeat;
+  background-size: cover;
+}
+.enter-btn{
+  position: relative;
+  top: 50%;
+  left: 50%;
+  font-size: 4em;
+  width: 300px;
+  display: block;
+  margin-left: -150px;
+  text-align: center;
+  border: 2px solid #fff;
+  text-decoration: none;
+  border-radius: 10px;
+  font-weight: bold;
+  text-transform: uppercase;
+  background: rgba(255,255,255,0.6);
+  color: #FFB787;
+}
+.enter-btn:hover{
+  color: #FF7D27;
+  background: rgba(255,255,255,0.9);
+  transition: all .3s;
+}
+.ship-counter{
+  color: #FF7D27;
+  transition: all .3s;
+}
+.score{
+  position: absolute;
+  z-index: 2;
+  right: 30px;
+  top: 30px;
+  background: rgba(255,255,255,0.8);
+  width: 420px;
+  height: 90px;
+  border-radius: 5px;
+  border: 2px solid rgba(255, 125,39,0.8);
+  text-transform: uppercase;
+  text-align: center;
+  font-size: 3em;
+  font-weight: 900;
+}
+.modal{
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0,0,0,0.6);
+}
+.message{
+  text-align: center;
+  font-size: 3em;
+  background: rgba(255,255,255, 0.6);
+  width: 500px;
+  height: 213px;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  margin-top: -100px;
+  margin-left: -250px;
+  border: 2px solid #fff;
+  box-shadow: 5px 5px 20px 0 black;
+  border-radius: 5px;
+
+
+}
+.exit-btn{
+  position: absolute;
+  bottom: 0;
 }

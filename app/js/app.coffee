@@ -15,7 +15,7 @@ angular.module("myApp", [
 
     $routeProvider.when "/view2",
       templateUrl: "/partial2.html"
-      controller: "MyCtrl2"
+      controller: "GameBoard"
 
     $routeProvider.otherwise redirectTo: "/view1"
 ]

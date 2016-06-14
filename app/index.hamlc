@@ -10,13 +10,7 @@
     %link{:href => "css/app.css", :rel => "stylesheet"}
     %script{:src => "html5-boilerplate/js/vendor/modernizr-2.6.2.min.js"}
   %body
-    %ul.menu
-      %li
-        %a{:href => "#/view1"} view1
-      %li
-        %a{:href => "#/view2"} view2
-      %li
-        %a{:href => "#/game"} game
+
     /[if lt IE 9]
       %p.browsehappy
         You are using an

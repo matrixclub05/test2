@@ -1,9 +1,3 @@
-<div ng-model="enemyShoot">
-    <battle-field virtual-field="field1" ships="userShips" size="size" state="state" is-enemy="false" shoot="enemyShoot"></battle-field>
-    <battle-field virtual-field="field2" ships="enemyShips" size="size" state="state" is-enemy="true" show-ships="showShips" game-started="gameStarted"></battle-field>
+<div class="intro">
+    <a href="#/view2" class="enter-btn">PLAY</a>
 </div>
-<a href="#" ng-click="setShips($event)" ng-if="!gameStarted && !isSet">Set ships</a>
-<a href="#" ng-click="updateField($event)" ng-if="!gameStarted && isSet">Update your ships</a>
-<a href="#" ng-click="startGame($event)" ng-if="!gameStarted && gameReady">Start game</a>
-<a href="#" ng-click="stopGame($event)" ng-if="gameStarted">Stop game</a>
-<a href="#" ng-click="toggleShips($event)"><span ng-if="!showShips">Show </span><span ng-if="showShips">Hide </span>enemy ships</a>

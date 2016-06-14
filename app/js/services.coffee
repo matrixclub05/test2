@@ -16,12 +16,12 @@ GameBoardService = (RULES)->
     return count
   isEmptyCell = (x, y, field)->
     d = [[0, 1], [1, 0], [0, -1], [-1, 0], [1, 1], [-1, 1], [1, -1], [-1, -1]];
-    if x > 0 and x < 20 and y > 0 and y < 20 and field[x][y] == RULES.state.init
+    if x > 0 and x < RULES.size.x and y > 0 and y < RULES.size.y and field[x][y] == RULES.state.init
       i = 0
       while i < 8
         dx = x + d[i][0]
         dy = y + d[i][1]
-        if dx > 0 and dx < 20 and dy > 0 and dy < 20 and field[dx][dy] > RULES.state.init
+        if dx > 0 and dx < RULES.size.x and dy > 0 and dy < RULES.size.y and field[dx][dy] > RULES.state.init
           return true
         i++
       return false
@@ -34,10 +34,10 @@ GameBoardService = (RULES)->
   fieldInit = ()->
     field = []
     x = 0
-    while x < 20
+    while x < RULES.size.x
       row = []
       y = 0
-      while y < 20
+      while y < RULES.size.y
         row[y] = RULES.state.init
         y++
       field[x] = row
@@ -50,7 +50,7 @@ GameBoardService = (RULES)->
     while i < 8
       dx = x + d[i][0]
       dy = y + d[i][1]
-      if dx >= 0 and dx < 20 and dy >= 0 and dy < 20 and field[dx][dy] is -1
+      if dx >= 0 and dx < RULES.size.x and dy >= 0 and dy < RULES.size.y and field[dx][dy] is -1
         field[dx][dy] = RULES.state.frame
       i++
     return
@@ -116,13 +116,12 @@ GameBoardService = (RULES)->
   handleUserShoot = (x, y, field, map)->
     if field[x][y] == RULES.state.ship
       killShip(x, y, field, map)
-      return
+      return true
     if field[x][y] == RULES.state.missed or field[x][y] == RULES.state.killed
-      e.preventDefault()
-      return
+      return false
     else
       field[x][y] = RULES.state.missed
-      return
+      return false
 
   getBoard = (isEnemy)->
     field = fieldInit()

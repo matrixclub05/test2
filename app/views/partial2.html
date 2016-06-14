@@ -1,0 +1,30 @@
+<div class="score" ng-if="gameStarted">
+    <span class="ship-counter">{{shipCountUser}}</span> : <span class="ship-counter">{{shipCountEnemy}}</span>
+</div>
+<nav class="left-menu">
+    <li><a href="#" ng-click="setShips($event)" ng-if="!gameStarted && !isSet">Set ships</a></li>
+
+    <li><a href="#" ng-click="startGame($event)" ng-if="!gameStarted && gameReady">Start game</a></li>
+    <li><a href="#" ng-click="stopGame($event)" ng-if="gameStarted">Stop game</a></li>
+
+
+    <ul battle-field virtual-field="field1" is-enemy="false" ship-counter="shipCountUser"></ul>
+    <li><a href="#" ng-click="updateField($event)" ng-if="!gameStarted && isSet">Update ships</a></li>
+    <div><a href="#" ng-click="toggleShips($event)" ng-if="gameStarted"><span ng-if="!showShips && gameStarted">Show </span><span ng-if="showShips">Hide </span>enemy ships</a></div>
+    <li class="exit-btn"><a href="#/exit" >Exit</a></li>
+</nav>
+
+<div class="game-board-ct">
+    <div class="game-board">
+
+        <div battle-field class="enemy" ng-click="onFieldClick($event)" ship-counter="shipCountEnemy" virtual-field="field2" is-enemy="true" show-ships="showShips" game-started="gameStarted"></div>
+    </div>
+</div>
+
+<div class="modal" ng-if="userWin || enemyWin">
+    <div class="message">
+        <div ng-if="userWin">Congratulations! you won!</div>
+        <div ng-if="enemyWin">You lose!</div>
+        <a href="#" ng-click="restart($event)">Restart</a>
+    </div>
+</div>
