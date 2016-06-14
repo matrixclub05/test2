@@ -1,7 +1,7 @@
 "use strict"
 
 # jasmine specs for directives go here
-describe "directives", ->
+###describe "directives", ->
   beforeEach module("myApp.directives")
   describe "app-version", ->
     it "should print current version", ->
@@ -11,4 +11,4 @@ describe "directives", ->
 
       inject ($compile, $rootScope) ->
         element = $compile("<span app-version></span>")($rootScope)
-        expect(element.text()).toEqual "TEST_VER"
+        expect(element.text()).toEqual "TEST_VER"###

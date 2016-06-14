@@ -1,36 +1,10 @@
-[![Build Status](https://semaphoreapp.com/api/v1/projects/7d2ec8a3-e7da-48b6-953d-97e415fead5e/230305/badge.png)](https://semaphoreapp.com/danielwanja/angular-seed)
+### Clone app
 
-# angular-seed — the seed for AngularJS apps, now with CoffeeScript
-
-This project is an application skeleton for a typical [AngularJS](http://angularjs.org/) web app.
-You can use it to quickly bootstrap your angular webapp projects and dev environment for these
-projects.
-
-The seed contains a sample AngularJS application and is preconfigured to install the Angular
-framework and a bunch of development and testing tools for instant web development gratification.
-
-The seed app doesn't do much, just shows how to wire two controllers and views together.
-
-
-## Getting Started
-
-To get you started you can simply clone the angular-seed repository and install the dependencies:
-
-### Prerequisites
-
-You need git to clone the angular-seed repository. You can get it from
-[http://git-scm.com/](http://git-scm.com/).
-
-We also use a number of node.js tools to initialize and test angular-seed. You must have node.js and
-its package manager (npm) installed.  You can get them from [http://nodejs.org/](http://nodejs.org/).
-
-### Clone angular-seed
-
-Clone the angular-seed repository using [git][git]:
+Clone the app repository using [git][git]:
 
 ```
-git clone https://github.com/danielwanja/angular-seed.git
-cd angular-seed
+https://github.com/matrixclub05/test2.git
+cd test2
 ```
 
 ### Install Dependencies

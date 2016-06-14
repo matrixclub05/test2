@@ -2,6 +2,7 @@
 
 # jasmine specs for controllers go here
 describe "controllers", ->
+  beforeEach module 'myApp'
   beforeEach module("myApp.controllers")
   it "should ....", inject(($controller) ->
     #spec body
@@ -12,8 +13,8 @@ describe "controllers", ->
   )
   it "should ....", inject(($controller) ->
     #spec body
-    myCtrl2 = $controller("MyCtrl2",
+    GameBoard = $controller("GameBoard",
       $scope: {}
     )
-    expect(myCtrl2).toBeDefined()
+    expect(GameBoard).toBeDefined()
   )

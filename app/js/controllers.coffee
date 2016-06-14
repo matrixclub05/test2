@@ -1,13 +1,13 @@
 "use strict"
 
 # Controllers
-controllers = angular.module("myApp.controllers", [])
-controllers.controller("GameBoard", [
+
+angular.module("myApp.controllers", [])
+.controller("GameBoard", [
   "$scope"
   "GameBoardService"
   "RULES"
-  "$timeout"
-  ($scope, GameBoardService, RULES, $timeout) ->
+  ($scope, GameBoardService, RULES) ->
     $scope.gameStarted = false
     $scope.showShips = false
     $scope.stopped = true
@@ -110,12 +110,12 @@ controllers.controller("GameBoard", [
           y:coords[1]
         shootHandler(null, c)
       return
-    $scope.$on('EnemyShoot', shootHandler)
+
     return
 ])
 
-controllers.controller "MyCtrl1", [
+.controller("MyCtrl1", [
   "$scope"
   ($scope) ->
 
-]
+])

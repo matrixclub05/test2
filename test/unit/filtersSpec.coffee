@@ -1,7 +1,7 @@
 "use strict"
 
 # jasmine specs for filters go here
-describe "filter", ->
+###describe "filter", ->
   beforeEach module("myApp.filters")
   describe "interpolate", ->
     beforeEach module(($provide) ->
@@ -10,4 +10,4 @@ describe "filter", ->
     )
     it "should replace VERSION", inject((interpolateFilter) ->
       expect(interpolateFilter("before %VERSION% after")).toEqual "before TEST_VER after"
-    )
+    )###
