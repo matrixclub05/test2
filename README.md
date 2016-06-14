@@ -53,8 +53,9 @@ Now browse to the app at `http://localhost:8000`.
       │   │   ├── services.coffee      --> custom angular services
       │   │   └── views.coffee         --> defines module for the view templates
       │   └── views                    --> angular view partials (partial html templates)
-      │       ├── partial1.hamlc
-      │       └── partial2.hamlc
+      │       ├── field.html
+      │       ├── partial1.html
+      │       └── partial2.html
       ├── bower.json                   --> define external dependencies like AngularJA.
       ├── dist                         --> all of the files to be used in production (CoffeeScript and HAMLC compiled to javascript)
       ├── gulpfile.coffee              --> the build system
