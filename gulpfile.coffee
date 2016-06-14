@@ -14,7 +14,7 @@ rimraf          = require "gulp-rimraf"
 templates       = require 'gulp-angular-templatecache'
 uglify          = require "gulp-uglify"
 
-gulp.task "compile", ["clean", "compile-styles", "compile-scripts", "compile-views"]
+gulp.task "compile", ["clean", "compile-styles", "compile-scripts", "compile-views", "copy-imgs"]
 
 gulp.task "clean", ->
   gulp.src(["./dist/*.js", "./dist/*.css"],
@@ -25,6 +25,10 @@ gulp.task "clean", ->
 gulp.task "compile-styles", ->
   gulp.src("./app/**/*.css")
       .pipe gulp.dest("./dist/")
+
+gulp.task "copy-imgs", ->
+  gulp.src("./app/img/*.*" )
+  .pipe(gulp.dest("./dist/img"))
 
 gulp.task "compile-scripts", ->
   gulp.src([
