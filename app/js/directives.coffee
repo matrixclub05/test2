@@ -13,8 +13,6 @@ battleField = () ->
     link: (scope)->
       scope.size = 100/scope.virtualField.length
       scope.size += '%'
-      scope.getVal = ()->
-        debugger
       return
   return obj
 
