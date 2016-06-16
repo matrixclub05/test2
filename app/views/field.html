@@ -1,5 +1,5 @@
 <div class="field">
     <div ng-repeat="row in virtualField" class="row">
-        <div style="width:{{::size}}; height:{{::size}} " ng-repeat="cell in row track by $index" coords="\[{{::virtualField.indexOf(row)}},{{::$index}}\]" val="{{isEnemy && !showShips && cell == 0 ? -1 : cell}}" class="cell"></div>
+        <div style="width:{{::size}}; height:{{::size}} " ng-repeat="cell in row track by $index" coords="[{{::virtualField.indexOf(row)}},{{::$index}}]" val="{{isEnemy && !showShips && cell == 0 ? -1 : cell}}" class="cell"></div>
     </div>
 </div>

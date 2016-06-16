@@ -4,7 +4,7 @@ angularFilesort = require "gulp-angular-filesort"
 coffee          = require "gulp-coffee"
 concat          = require "gulp-concat"
 connect         = require 'gulp-connect'
-hamlc           = require "gulp-haml-coffee"
+
 history         = require 'connect-history-api-fallback'
 inject          = require "gulp-inject"
 karma           = require "gulp-karma"
@@ -41,17 +41,16 @@ gulp.task "compile-scripts", ->
 
 gulp.task "compile-views", ->
   gulp.src("./app/views/**/*.*" )
-      .pipe(hamlc())
+      #.pipe(hamlc())
       .pipe(templates(standalone: false, root: '/', module: 'myApp.views'))
       .pipe(concat("myapp-views.js"))
       .pipe(gulp.dest("./dist"))
 
 gulp.task 'index.html', [ 'compile' ], ->
-  target = gulp.src('app/index.hamlc')
+  target = gulp.src('app/index.html')
   bowerFiles = gulp.src(mainBowerFiles(), {read: false})
   # angularFiles = gulp.src(['./dist/**/*.js'], {read: false}).pipe(angularFilesort())
-  target.pipe(hamlc())
-        .pipe(inject(bowerFiles, starttag: '<!-- inject:bower:{{ext}} -->', ignorePath: 'bower_components'))
+  target.pipe(inject(bowerFiles, starttag: '<!-- inject:bower:{{ext}} -->', ignorePath: 'bower_components'))
         # .pipe(inject(angularFiles, ignorePath: 'dist'))
         .pipe(gulp.dest('./dist'))
         .pipe(connect.reload())
@@ -100,7 +99,7 @@ gulp.task 'dev-server', ->
 
 gulp.task 'watch', ->
   gulp.watch('app/index.html', ['index.html'])
-  gulp.watch(['app/**/*.coffee','app/**/*.hamlc', 'app/**/*.html', 'app/**/*.css'], ['compile', 'index.html'])
+  gulp.watch(['app/**/*.coffee', 'app/**/*.html', 'app/**/*.css'], ['compile', 'index.html'])
 
 gulp.task 'build',   ['index.html', 'watch']
 gulp.task 'dev', ['dev-server', 'build']
